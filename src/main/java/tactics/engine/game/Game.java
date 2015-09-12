@@ -19,6 +19,17 @@ public interface Game {
     Game with(@NotNull Entity... entities);
 
     /**
+     * Runs a single cycle.
+     */
+    void runCycle();
+
+    /**
+     * Total number of cycles run so far.
+     * @return Total number of cycles.
+     */
+    long cycles();
+
+    /**
      * Starts the game.
      * @param exit Exit condition.
      */

@@ -1,8 +1,9 @@
 package tactics.engine.game;
 
+import javax.validation.constraints.NotNull;
+
 /**
- * An {@link Exit} that activates after a given number of calls to
- * {@link Exit#active()}.
+ * An {@link Exit} that activates after a given number of cycles are run.
  * @author Felipe Pina (felipe.pina@protonmail.com)
  * @version $Id$
  * @since 0.1
@@ -15,31 +16,22 @@ public final class ExitCount implements Exit {
     private final transient long limit;
 
     /**
-     * Count for number of calls so far.
+     * Game.
      */
-    private transient long count;
+    private final transient Game game;
 
     /**
      * Ctor.
      * @param lmt Number of calls before activation.
      */
-    public ExitCount(final long lmt) {
+    public ExitCount(final long lmt, @NotNull final Game gme) {
         this.limit = lmt;
-        this.count = 0L;
+        this.game = gme;
     }
 
     @Override
     public boolean active() {
-        this.count++;
-        return this.count > this.limit;
-    }
-
-    /**
-     * Returns the number of calls.
-     * @return Number of calls.
-     */
-    public long count() {
-        return this.count;
+        return this.game.cycles() >= this.limit;
     }
 
 }

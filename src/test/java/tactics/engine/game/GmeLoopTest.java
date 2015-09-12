@@ -21,9 +21,8 @@ public final class GmeLoopTest {
         final Entity second = Mockito.mock(Entity.class);
         final Entity third = Mockito.mock(Entity.class);
         final int times = 10;
-        new GmeLoop()
-            .with(first, third)
-            .start(new ExitCount((long) times));
+        final Game game = new GmeLoop().with(first, third);
+        game.start(new ExitCount((long) times, game));
         Mockito.verify(first, Mockito.times(times)).act();
         Mockito.verifyZeroInteractions(second);
         Mockito.verify(third, Mockito.times(times)).act();

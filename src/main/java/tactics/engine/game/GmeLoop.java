@@ -20,10 +20,15 @@ public final class GmeLoop implements Game {
     private final transient Collection<Entity> entities
         = new ArrayList<>(100 * 1000);
 
+    /**
+     * Total number of cycles run so far.
+     */
+    private transient long cycles;
+
     @Override
     public void start(@NotNull final Exit exit) {
         while (!exit.active()) {
-            this.loop();
+            this.runCycle();
         }
     }
 
@@ -34,13 +39,17 @@ public final class GmeLoop implements Game {
         return this;
     }
 
-    /**
-     * The game loop.
-     */
-    private void loop() {
+    @Override
+    public void runCycle() {
         for (final Entity entity: this.entities) {
             entity.act();
         }
+        this.cycles++;
+    }
+
+    @Override
+    public long cycles() {
+        return this.cycles;
     }
 
 }
