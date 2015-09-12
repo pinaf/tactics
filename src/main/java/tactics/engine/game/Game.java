@@ -12,15 +12,16 @@ import tactics.engine.Entity;
 public interface Game {
 
     /**
-     * Adds an entity to this game.
-     * @param entity Entity.
+     * Adds entities to this game.
+     * @param entities Entities.
      * @return Itself.
      */
-    Game with(@NotNull Entity entity);
+    Game with(@NotNull Entity... entities);
 
     /**
      * Starts the game.
+     * @param exit Exit condition.
      */
-    void start();
+    void start(@NotNull Exit exit);
 
 }

@@ -19,7 +19,7 @@ public final class ExitCountTest {
     public void activatesOnLimit() {
         final long limit = 100L;
         final Exit exit = new ExitCount(limit);
-        for (long count = 1L; count < limit; count++) {
+        for (long count = 1L; count <= limit; count++) {
             MatcherAssert.assertThat(exit.active(), Matchers.is(false));
         }
         MatcherAssert.assertThat(exit.active(), Matchers.is(true));

@@ -31,7 +31,7 @@ public final class ExitCount implements Exit {
     @Override
     public boolean active() {
         this.count++;
-        return this.count >= this.limit;
+        return this.count > this.limit;
     }
 
 }
