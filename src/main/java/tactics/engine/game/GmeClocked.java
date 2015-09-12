@@ -2,7 +2,7 @@ package tactics.engine.game;
 
 import java.util.concurrent.TimeUnit;
 import javax.validation.constraints.NotNull;
-import tactics.engine.Entity;
+import tactics.engine.entity.Entity;
 
 /**
  * A {@link Game} decorator that runs according to a clock.

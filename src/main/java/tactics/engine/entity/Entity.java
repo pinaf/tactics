@@ -1,4 +1,4 @@
-package tactics.engine;
+package tactics.engine.entity;
 
 /**
  * An entity. The base object that can participate in the game logic.

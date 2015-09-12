@@ -1,7 +1,7 @@
 package tactics.engine.game;
 
 import javax.validation.constraints.NotNull;
-import tactics.engine.Entity;
+import tactics.engine.entity.Entity;
 
 /**
  * A Game.

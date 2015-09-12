@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import javax.validation.constraints.NotNull;
-import tactics.engine.Entity;
+import tactics.engine.entity.Entity;
 
 /**
  * An implementation of {@link Game} that works with a simple loop.

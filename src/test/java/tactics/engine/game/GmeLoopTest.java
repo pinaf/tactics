@@ -2,7 +2,7 @@ package tactics.engine.game;
 
 import org.junit.Test;
 import org.mockito.Mockito;
-import tactics.engine.Entity;
+import tactics.engine.entity.Entity;
 
 /**
  * Tests for {@link GmeLoop}.
