@@ -18,11 +18,12 @@ public final class ExitCountTest {
     @Test
     public void activatesOnLimit() {
         final long limit = 100L;
-        final Exit exit = new ExitCount(limit);
+        final ExitCount exit = new ExitCount(limit);
         for (long count = 1L; count <= limit; count++) {
             MatcherAssert.assertThat(exit.active(), Matchers.is(false));
         }
         MatcherAssert.assertThat(exit.active(), Matchers.is(true));
+        MatcherAssert.assertThat(exit.count(), Matchers.is(limit + 1L));
     }
 
 }

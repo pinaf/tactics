@@ -34,4 +34,12 @@ public final class ExitCount implements Exit {
         return this.count > this.limit;
     }
 
+    /**
+     * Returns the number of calls.
+     * @return Number of calls.
+     */
+    public long count() {
+        return this.count;
+    }
+
 }
