@@ -38,7 +38,7 @@ public final class GmeClocked implements Game {
         while (!exit.active()) {
             final long now = System.nanoTime();
             final int cycles = (int)
-                (((now - last) / 1.0E9) * this.target);
+                ((double) (now - last) / 1.0E9 * this.target);
             if (cycles < 5) {
                 try {
                     TimeUnit.MILLISECONDS.sleep(10L);

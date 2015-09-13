@@ -25,6 +25,13 @@ public final class GmeLoop implements Game {
      */
     private transient long cycles;
 
+    /**
+     * Ctor.
+     */
+    public GmeLoop() {
+        this.cycles = 0L;
+    }
+
     @Override
     public void start(@NotNull final Exit exit) {
         while (!exit.active()) {
