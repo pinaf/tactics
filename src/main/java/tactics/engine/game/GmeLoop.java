@@ -12,7 +12,7 @@ import tactics.engine.entity.Entity;
  * @version $Id$
  * @since 0.1
  */
-public final class GmeLoop implements Game {
+public class GmeLoop implements Game {
 
     /**
      * Entities.
@@ -33,7 +33,7 @@ public final class GmeLoop implements Game {
     }
 
     @Override
-    public void start(@NotNull final Exit exit) {
+    public final void start(@NotNull final Exit exit) {
         while (!exit.active()) {
             this.runCycle();
         }
@@ -41,7 +41,7 @@ public final class GmeLoop implements Game {
 
     @SuppressWarnings("OverloadedVarargsMethod")
     @Override
-    public GmeLoop with(@NotNull final Entity... entts) {
+    public final GmeLoop with(@NotNull final Entity... entts) {
         this.entities.addAll(Arrays.asList(entts));
         return this;
     }
@@ -55,7 +55,7 @@ public final class GmeLoop implements Game {
     }
 
     @Override
-    public long cycles() {
+    public final long cycles() {
         return this.cycles;
     }
 
