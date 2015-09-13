@@ -33,7 +33,18 @@ public final class GmeClocked implements Game {
     }
 
     @Override
+    public void init() {
+        this.game.init();
+    }
+
+    @Override
+    public void shutdown() {
+        this.game.shutdown();
+    }
+
+    @Override
     public void start(@NotNull final Exit exit) {
+        this.init();
         long last = System.nanoTime();
         while (!exit.active()) {
             final long now = System.nanoTime();
@@ -52,6 +63,7 @@ public final class GmeClocked implements Game {
                 }
             }
         }
+        this.shutdown();
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")

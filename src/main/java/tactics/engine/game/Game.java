@@ -1,6 +1,7 @@
 package tactics.engine.game;
 
 import javax.validation.constraints.NotNull;
+import tactics.engine.Initializable;
 import tactics.engine.entity.Entity;
 
 /**
@@ -9,7 +10,7 @@ import tactics.engine.entity.Entity;
  * @version $Id$
  * @since 0.1
  */
-public interface Game {
+public interface Game extends Initializable {
 
     /**
      * Adds entities to this game.

@@ -33,10 +33,22 @@ public class GmeLoop implements Game {
     }
 
     @Override
+    public void init() {
+        // empty
+    }
+
+    @Override
+    public void shutdown() {
+        // empty
+    }
+
+    @Override
     public final void start(@NotNull final Exit exit) {
+        this.init();
         while (!exit.active()) {
             this.runCycle();
         }
+        this.shutdown();
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")

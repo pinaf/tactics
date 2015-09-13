@@ -6,11 +6,25 @@
     <groupId>tactics</groupId>
     <artifactId>server</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <properties>
+        <lwjgl.version>3.0.0a</lwjgl.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             <version>1.1.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.lwjgl</groupId>
+            <artifactId>lwjgl</artifactId>
+            <version>${lwjgl.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.lwjgl</groupId>
+            <artifactId>lwjgl-platform</artifactId>
+            <version>${lwjgl.version}</version>
+            <classifier>natives-linux</classifier>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
