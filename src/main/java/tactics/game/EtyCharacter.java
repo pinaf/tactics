@@ -26,6 +26,14 @@ public final class EtyCharacter implements Ety2D<Integer> {
         this.position = new V2Integer();
     }
 
+    /**
+     * Returns this character's name.
+     * @return Name.
+     */
+    public String name() {
+        return "Dummy";
+    }
+
     @Override
     public Vector2D<Integer> pos() {
         return this.position;
@@ -38,7 +46,11 @@ public final class EtyCharacter implements Ety2D<Integer> {
 
     @Override
     public void act() {
-        this.move(Direction2D.RIGHT);
+        if (this.position.coordX() < 60) {
+            this.move(Direction2D.RIGHT);
+        } else {
+            this.move(Direction2D.DOWN);
+        }
     }
 
 }
