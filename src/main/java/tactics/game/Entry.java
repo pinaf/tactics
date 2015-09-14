@@ -1,6 +1,6 @@
 package tactics.game;
 
-import tactics.engine.game.ExitCount;
+import tactics.engine.game.ExitManual;
 import tactics.engine.game.Game;
 import tactics.engine.game.GmeClocked;
 
@@ -26,7 +26,7 @@ public final class Entry {
      */
     public static void main(final String[] args) {
         final Game game = new GmeTactics();
-        new GmeClocked(60.0, game).start(new ExitCount(1000L, game));
+        new GmeClocked(120.0, game).start(new ExitManual());
     }
 
 }

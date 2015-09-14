@@ -85,10 +85,10 @@ public final class EtyRndSquare implements EntityRenderer<Ety2D<Integer>> {
         GL11.glBegin(GL11.GL_QUADS);
         final float xcoord = (float) this.width / 2.0f + entity.pos().coordX();
         final float ycoord = (float) this.height / 2.0f + entity.pos().coordY();
-        GL11.glVertex2f(xcoord - this.size, ycoord - this.size);
-        GL11.glVertex2f(xcoord - this.size, ycoord + this.size);
-        GL11.glVertex2f(xcoord + this.size, ycoord + this.size);
         GL11.glVertex2f(xcoord + this.size, ycoord - this.size);
+        GL11.glVertex2f(xcoord + this.size, ycoord + this.size);
+        GL11.glVertex2f(xcoord - this.size, ycoord + this.size);
+        GL11.glVertex2f(xcoord - this.size, ycoord - this.size);
         GL11.glEnd();
     }
 
