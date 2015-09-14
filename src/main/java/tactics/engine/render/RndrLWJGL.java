@@ -48,11 +48,6 @@ public final class RndrLWJGL implements Renderer {
     private transient GLFWErrorCallback errors;
 
     /**
-     * Keys callback.
-     */
-    private transient GLFWKeyCallback keys;
-
-    /**
      * The window handle
      */
     private transient long window;
@@ -81,19 +76,6 @@ public final class RndrLWJGL implements Renderer {
     }
 
     @Override
-    public void render() {
-        if (GLFW.glfwWindowShouldClose(this.window) == GL11.GL_FALSE) {
-            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-            for (final Map.Entry<Entity, EntityRenderer> entry
-                    : this.entities.entrySet()) {
-                entry.getValue().render(entry.getKey());
-            }
-            GLFW.glfwSwapBuffers(this.window);
-            GLFW.glfwPollEvents();
-        }
-    }
-
-    @Override
     public void init() {
         System.out.printf("Hello LWJGL %s!%n", Sys.getVersion());
         this.errors = Callbacks.errorCallbackPrint(System.err);
@@ -110,17 +92,6 @@ public final class RndrLWJGL implements Renderer {
         if (this.window == 0L) {
             throw new IllegalStateException("Failed to create the GFW window");
         }
-        this.keys = new GLFWKeyCallback() {
-            @Override
-            public void invoke(
-                final long win, final int key, final int scancode,
-                final int action, final int mods) {
-                if (key == GLFW.GLFW_KEY_ESCAPE && action == GLFW.GLFW_RELEASE) {
-                    GLFW.glfwSetWindowShouldClose(win, GL11.GL_TRUE);
-                }
-            }
-        };
-        GLFW.glfwSetKeyCallback(this.window, this.keys);
         final ByteBuffer vidmode = GLFW
             .glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
         GLFW.glfwSetWindowPos(
@@ -145,14 +116,37 @@ public final class RndrLWJGL implements Renderer {
 
     @Override
     public void shutdown() {
+        GLFW.glfwSetWindowShouldClose(this.window, GL11.GL_TRUE);
         System.out.printf("Goodbye LWJGL %s!%n", Sys.getVersion());
         try {
             GLFW.glfwDestroyWindow(this.window);
-            this.keys.release();
         } finally {
             GLFW.glfwTerminate();
             this.errors.release();
         }
+    }
+
+    @Override
+    public void render() {
+        if (GLFW.glfwWindowShouldClose(this.window) == GL11.GL_FALSE) {
+            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+            for (final Map.Entry<Entity, EntityRenderer> entry
+                : this.entities.entrySet()) {
+                entry.getValue().render(entry.getKey());
+            }
+            GLFW.glfwSwapBuffers(this.window);
+            GLFW.glfwPollEvents();
+        }
+    }
+
+    /**
+     * Registers a keyboard callback.
+     * @param keyb Keyboard callback.
+     * @return This renderer.
+     */
+    public RndrLWJGL withKeyboard(@NotNull final GLFWKeyCallback keyb) {
+        GLFW.glfwSetKeyCallback(this.window, keyb);
+        return this;
     }
 
 }

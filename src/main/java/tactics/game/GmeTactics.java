@@ -1,9 +1,11 @@
 package tactics.game;
 
+import org.lwjgl.glfw.GLFW;
 import tactics.engine.game.GmeLoop;
+import tactics.engine.input.KeybLWJGL;
 import tactics.engine.render.EtyRndSquare;
-import tactics.engine.render.Renderer;
 import tactics.engine.render.RndrLWJGL;
+import tactics.engine.space.Direction2D;
 import tactics.engine.space.V2Integer;
 
 /**
@@ -37,7 +39,12 @@ public final class GmeTactics extends GmeLoop {
     /**
      * Renderer.
      */
-    private final transient Renderer renderer;
+    private final transient RndrLWJGL renderer;
+
+    /**
+     * Keyboard input.
+     */
+    private final transient KeybLWJGL keyboard;
 
     /**
      * Ctor.
@@ -49,6 +56,7 @@ public final class GmeTactics extends GmeLoop {
             new V2Integer(- GmeTactics.WIDTH / 4, GmeTactics.HEIGHT / 4)
         );
         this.with(this.character, this.second);
+        this.keyboard = new KeybLWJGL();
         this.renderer = new RndrLWJGL(
             "Tactics v0.1", GmeTactics.WIDTH, GmeTactics.HEIGHT
         );
@@ -62,25 +70,31 @@ public final class GmeTactics extends GmeLoop {
         );
         this.renderer.register(chars, this.character, this.second);
         this.renderer.init();
+        this.keyboard.init();
+        this.renderer.withKeyboard(this.keyboard);
     }
 
     @Override
     public void shutdown() {
         super.shutdown();
+        this.keyboard.shutdown();
         this.renderer.shutdown();
     }
 
     @Override
     public void runCycle() {
         super.runCycle();
-        if (this.cycles() % 10L == 0L) {
-            System.out.println(
-                String.format(
-                    "%s: %s",
-                    this.character.name(),
-                    this.character.pos().toString()
-                )
-            );
+        if (this.keyboard.isKeyDown(GLFW.GLFW_KEY_UP)) {
+            this.character.move(Direction2D.UP);
+        }
+        if (this.keyboard.isKeyDown(GLFW.GLFW_KEY_DOWN)) {
+            this.character.move(Direction2D.DOWN);
+        }
+        if (this.keyboard.isKeyDown(GLFW.GLFW_KEY_LEFT)) {
+            this.character.move(Direction2D.LEFT);
+        }
+        if (this.keyboard.isKeyDown(GLFW.GLFW_KEY_RIGHT)) {
+            this.character.move(Direction2D.RIGHT);
         }
         this.renderer.render();
     }

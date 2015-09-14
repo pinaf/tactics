@@ -54,11 +54,6 @@ public final class EtyCharacter implements Ety2D<Integer> {
 
     @Override
     public void act() {
-        if (this.position.coordX() < 600) {
-            this.move(Direction2D.RIGHT);
-        } else {
-            this.move(Direction2D.DOWN);
-        }
     }
 
 }
