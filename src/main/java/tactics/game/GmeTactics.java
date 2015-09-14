@@ -4,6 +4,7 @@ import tactics.engine.game.GmeLoop;
 import tactics.engine.render.EtyRndSquare;
 import tactics.engine.render.Renderer;
 import tactics.engine.render.RndrLWJGL;
+import tactics.engine.space.V2Integer;
 
 /**
  * Tactics {@link tactics.engine.game.Game}.
@@ -16,17 +17,22 @@ public final class GmeTactics extends GmeLoop {
     /**
      * Screen width.
      */
-    private static final int WIDTH = 121;
+    private static final int WIDTH = 1201;
 
     /**
      * Screen height.
      */
-    private static final int HEIGHT = 121;
+    private static final int HEIGHT = 801;
 
     /**
      * Character.
      */
     private final transient EtyCharacter character;
+
+    /**
+     * Second character.
+     */
+    private final transient EtyCharacter second;
 
     /**
      * Renderer.
@@ -39,17 +45,22 @@ public final class GmeTactics extends GmeLoop {
     public GmeTactics() {
         super();
         this.character = new EtyCharacter();
-        this.with(this.character);
-        this.renderer = new RndrLWJGL(GmeTactics.WIDTH, GmeTactics.HEIGHT);
+        this.second = new EtyCharacter(
+            new V2Integer(- GmeTactics.WIDTH / 4, GmeTactics.HEIGHT / 4)
+        );
+        this.with(this.character, this.second);
+        this.renderer = new RndrLWJGL(
+            "Tactics v0.1", GmeTactics.WIDTH, GmeTactics.HEIGHT
+        );
     }
 
     @Override
     public void init() {
         super.init();
-        this.renderer.register(
-            this.character,
-            new EtyRndSquare(GmeTactics.WIDTH, GmeTactics.HEIGHT, 2.0f)
+        final EtyRndSquare chars = new EtyRndSquare(
+            GmeTactics.WIDTH, GmeTactics.HEIGHT, 2.0f
         );
+        this.renderer.register(chars, this.character, this.second);
         this.renderer.init();
     }
 

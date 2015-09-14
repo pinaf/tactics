@@ -23,7 +23,15 @@ public final class EtyCharacter implements Ety2D<Integer> {
      * Ctor.
      */
     public EtyCharacter() {
-        this.position = new V2Integer();
+        this(new V2Integer());
+    }
+
+    /**
+     * Ctor.
+     * @param pos Starting position.
+     */
+    public EtyCharacter(@NotNull final Vector2D<Integer> pos) {
+        this.position = pos;
     }
 
     /**
@@ -46,7 +54,7 @@ public final class EtyCharacter implements Ety2D<Integer> {
 
     @Override
     public void act() {
-        if (this.position.coordX() < 60) {
+        if (this.position.coordX() < 600) {
             this.move(Direction2D.RIGHT);
         } else {
             this.move(Direction2D.DOWN);

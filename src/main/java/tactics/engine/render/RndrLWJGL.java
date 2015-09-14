@@ -23,14 +23,19 @@ import tactics.engine.entity.Entity;
 public final class RndrLWJGL implements Renderer {
 
     /**
-     * Screen width.
+     * Window width.
      */
     private final transient int width;
 
     /**
-     * Screen height.
+     * Window height.
      */
     private final transient int height;
+
+    /**
+     * Window title.
+     */
+    private final transient String title;
 
     /**
      * Entity to renderer map.
@@ -54,10 +59,12 @@ public final class RndrLWJGL implements Renderer {
 
     /**
      * Ctor.
-     * @param wdth Screen width.
-     * @param hegt Screen height.
+     * @param wdth Window width.
+     * @param hegt Window height.
      */
-    public RndrLWJGL(final int wdth, final int hegt) {
+    public RndrLWJGL(@NotNull final String ttle, final int wdth,
+        final int hegt) {
+        this.title = ttle;
         this.width = wdth;
         this.height = hegt;
         this.entities = new HashMap<>(100 * 1000);
@@ -65,8 +72,12 @@ public final class RndrLWJGL implements Renderer {
 
     @Override
     public <T extends Entity> void register(
-        @NotNull final T entity, @NotNull final EntityRenderer<T> renderer) {
-        this.entities.put(entity, renderer);
+        @NotNull final EntityRenderer<T> renderer,
+        @NotNull final T... entts
+    ) {
+        for (final T entity : entts) {
+            this.entities.put(entity, renderer);
+        }
     }
 
     @Override
@@ -94,7 +105,7 @@ public final class RndrLWJGL implements Renderer {
         GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GL11.GL_FALSE);
         GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GL11.GL_TRUE);
         this.window = GLFW.glfwCreateWindow(
-            this.width, this.height, "Hello World!", 0L, 0L
+            this.width, this.height, this.title, 0L, 0L
         );
         if (this.window == 0L) {
             throw new IllegalStateException("Failed to create the GFW window");
@@ -105,7 +116,6 @@ public final class RndrLWJGL implements Renderer {
                 final long win, final int key, final int scancode,
                 final int action, final int mods) {
                 if (key == GLFW.GLFW_KEY_ESCAPE && action == GLFW.GLFW_RELEASE) {
-                    // We will detect this in our rendering loop
                     GLFW.glfwSetWindowShouldClose(win, GL11.GL_TRUE);
                 }
             }

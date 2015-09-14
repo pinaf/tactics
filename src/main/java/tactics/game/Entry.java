@@ -26,7 +26,7 @@ public final class Entry {
      */
     public static void main(final String[] args) {
         final Game game = new GmeTactics();
-        new GmeClocked(60.0, game).start(new ExitCount(120L, game));
+        new GmeClocked(60.0, game).start(new ExitCount(1000L, game));
     }
 
 }
