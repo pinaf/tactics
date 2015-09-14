@@ -1,5 +1,6 @@
 package tactics.engine.game;
 
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import javax.validation.constraints.NotNull;
 import tactics.engine.entity.Entity;
@@ -23,6 +24,11 @@ public final class GmeClocked implements Game {
     private final transient Game game;
 
     /**
+     * Exit condition.
+     */
+    private transient Optional<Exit> exit = Optional.empty();
+
+    /**
      * Ctor.
      * @param tgt Target rate (in Hz).
      * @param gme Wrapped {@link Game}.
@@ -43,10 +49,11 @@ public final class GmeClocked implements Game {
     }
 
     @Override
-    public void start(@NotNull final Exit exit) {
+    public void start(@NotNull final Exit ext) {
+        this.exit = Optional.of(ext);
         this.init();
         long last = System.nanoTime();
-        while (!exit.active()) {
+        while (!ext.active()) {
             final long now = System.nanoTime();
             final int cycles = (int)
                 ((double) (now - last) / 1.0E9 * this.target);
@@ -64,6 +71,13 @@ public final class GmeClocked implements Game {
             }
         }
         this.shutdown();
+    }
+
+    @Override
+    public void stop() {
+        if (this.exit.isPresent()) {
+            this.exit.get().activate();
+        }
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")

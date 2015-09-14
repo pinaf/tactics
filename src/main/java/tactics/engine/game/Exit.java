@@ -14,4 +14,9 @@ public interface Exit {
      */
     boolean active();
 
+    /**
+     * Manually activates this exit condition.
+     */
+    void activate();
+
 }

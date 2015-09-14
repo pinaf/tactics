@@ -36,4 +36,9 @@ public interface Game extends Initializable {
      */
     void start(@NotNull Exit exit);
 
+    /**
+     * Stops the game.
+     */
+    void stop();
+
 }

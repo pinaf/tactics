@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
  * @version $Id$
  * @since 0.1
  */
-public final class ExitCount implements Exit {
+public final class ExitCount extends ExitWrap {
 
     /**
      * Number of calls before activation.
@@ -25,13 +25,14 @@ public final class ExitCount implements Exit {
      * @param lmt Number of calls before activation.
      */
     public ExitCount(final long lmt, @NotNull final Game gme) {
+        super(new ExitManual());
         this.limit = lmt;
         this.game = gme;
     }
 
     @Override
     public boolean active() {
-        return this.game.cycles() >= this.limit;
+        return this.game.cycles() >= this.limit || super.active();
     }
 
 }
