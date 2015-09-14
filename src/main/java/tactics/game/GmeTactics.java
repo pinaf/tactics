@@ -53,7 +53,7 @@ public final class GmeTactics extends GmeLoop {
         super();
         this.character = new EtyCharacter();
         this.second = new EtyCharacter(
-            new V2Integer(- GmeTactics.WIDTH / 4, GmeTactics.HEIGHT / 4)
+            new V2Integer(-GmeTactics.WIDTH / 4, GmeTactics.HEIGHT / 4)
         );
         this.with(this.character, this.second);
         this.keyboard = new KeybLWJGL();
@@ -65,10 +65,16 @@ public final class GmeTactics extends GmeLoop {
     @Override
     public void init() {
         super.init();
-        final EtyRndSquare chars = new EtyRndSquare(
-            GmeTactics.WIDTH, GmeTactics.HEIGHT, 2.0f
+        this.renderer.register(
+            new EtyRndSquare(GmeTactics.WIDTH, GmeTactics.HEIGHT)
+                .withColor(0.0f, 0.0f, 1.0f),
+            this.character
         );
-        this.renderer.register(chars, this.character, this.second);
+        this.renderer.register(
+            new EtyRndSquare(GmeTactics.WIDTH, GmeTactics.HEIGHT)
+                .withColor(1.0f, 0.0f, 0.0f),
+            this.second
+        );
         this.renderer.init();
         this.keyboard.init();
         this.renderer.withKeyboard(this.keyboard);
