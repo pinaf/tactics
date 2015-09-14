@@ -66,7 +66,10 @@ public final class GmeClocked implements Game {
             } else {
                 last = now;
                 for (int idx = 0; idx < cycles; idx++) {
-                    this.game.runCycle();
+                    if (!this.game.runCycle()) {
+                        this.exit.get().activate();
+                        break;
+                    }
                 }
             }
         }
@@ -87,8 +90,8 @@ public final class GmeClocked implements Game {
     }
 
     @Override
-    public void runCycle() {
-        this.game.runCycle();
+    public boolean runCycle() {
+        return this.game.runCycle();
     }
 
     @Override

@@ -21,8 +21,9 @@ public interface Game extends Initializable {
 
     /**
      * Runs a single cycle.
+     * @return False iff the game should be stopped.
      */
-    void runCycle();
+    boolean runCycle();
 
     /**
      * Total number of cycles run so far.

@@ -53,7 +53,9 @@ public class GmeLoop implements Game {
         this.exit = Optional.of(ext);
         this.init();
         while (!ext.active()) {
-            this.runCycle();
+            if (!this.runCycle()) {
+                this.exit.get().activate();
+            }
         }
         this.shutdown();
     }
@@ -73,11 +75,12 @@ public class GmeLoop implements Game {
     }
 
     @Override
-    public void runCycle() {
+    public boolean runCycle() {
         for (final Entity entity: this.entities) {
             entity.act();
         }
         this.cycles++;
+        return true;
     }
 
     @Override

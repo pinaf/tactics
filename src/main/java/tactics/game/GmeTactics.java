@@ -88,8 +88,10 @@ public final class GmeTactics extends GmeLoop {
     }
 
     @Override
-    public void runCycle() {
-        super.runCycle();
+    public boolean runCycle() {
+        if (!super.runCycle() || this.keyboard.isKeyDown(GLFW.GLFW_KEY_ESCAPE)) {
+            return false;
+        }
         if (this.keyboard.isKeyDown(GLFW.GLFW_KEY_UP)) {
             this.character.move(Direction2D.UP);
         }
@@ -103,6 +105,7 @@ public final class GmeTactics extends GmeLoop {
             this.character.move(Direction2D.RIGHT);
         }
         this.renderer.render();
+        return true;
     }
 
 }
