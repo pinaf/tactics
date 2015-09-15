@@ -26,11 +26,4 @@ public interface Sprite {
      */
     void load();
 
-    /**
-     * Draws this sprite on the given coordinates.
-     * @param xcoord X coordinate.
-     * @param ycoord Y coordinate.
-     */
-    void draw(float xcoord, float ycoord);
-
 }

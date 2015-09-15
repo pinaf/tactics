@@ -86,22 +86,7 @@ public final class SprtLWJGL implements Sprite {
     @Override
     public void load() {
         this.bind();
-    }
-
-    @Override
-    public void draw(final float xcoord, final float ycoord) {
         GL11.glEnable(SprtLWJGL.TARGET);
-        GL11.glColor3f(1.0F, 1.0F, 1.0F);
-        GL11.glBegin(GL11.GL_QUADS);
-        GL11.glTexCoord2f(0.0F, 0.0F);
-        GL11.glVertex2f(xcoord, ycoord);
-        GL11.glTexCoord2f(0.0F, 1.0F);
-        GL11.glVertex2f(xcoord, ycoord + (float) this.height);
-        GL11.glTexCoord2f(1.0F, 1.0F);
-        GL11.glVertex2f(xcoord + (float) this.width, ycoord + (float) this.height);
-        GL11.glTexCoord2f(1.0F, 0.0F);
-        GL11.glVertex2f(xcoord + (float) this.width, ycoord);
-        GL11.glEnd();
     }
 
     /**

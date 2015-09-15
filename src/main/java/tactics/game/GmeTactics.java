@@ -1,12 +1,14 @@
 package tactics.game;
 
+import java.io.IOException;
 import org.lwjgl.glfw.GLFW;
 import tactics.engine.game.GmeLoop;
 import tactics.engine.input.KeybLWJGL;
-import tactics.engine.render.EtyRndSquare;
+import tactics.engine.render.EtyRndrSprite;
 import tactics.engine.render.RndrLWJGL;
 import tactics.engine.space.Direction2D;
 import tactics.engine.space.V2Integer;
+import tactics.engine.sprite.SprtLWJGL;
 
 /**
  * Tactics {@link tactics.engine.game.Game}.
@@ -29,12 +31,7 @@ public final class GmeTactics extends GmeLoop {
     /**
      * Character.
      */
-    private final transient EtyCharacter character;
-
-    /**
-     * Second character.
-     */
-    private final transient EtyCharacter second;
+    private transient EtyCharacter character;
 
     /**
      * Renderer.
@@ -51,11 +48,6 @@ public final class GmeTactics extends GmeLoop {
      */
     public GmeTactics() {
         super();
-        this.character = new EtyCharacter();
-        this.second = new EtyCharacter(
-            new V2Integer(-GmeTactics.WIDTH / 4, GmeTactics.HEIGHT / 4)
-        );
-        this.with(this.character, this.second);
         this.keyboard = new KeybLWJGL();
         this.renderer = new RndrLWJGL(
             "Tactics v0.1", GmeTactics.WIDTH, GmeTactics.HEIGHT
@@ -65,19 +57,25 @@ public final class GmeTactics extends GmeLoop {
     @Override
     public void init() {
         super.init();
-        this.renderer.register(
-            new EtyRndSquare(GmeTactics.WIDTH, GmeTactics.HEIGHT)
-                .withColor(0.0f, 0.0f, 1.0f),
-            this.character
-        );
-        this.renderer.register(
-            new EtyRndSquare(GmeTactics.WIDTH, GmeTactics.HEIGHT)
-                .withColor(1.0f, 0.0f, 0.0f),
-            this.second
-        );
         this.renderer.init();
         this.keyboard.init();
         this.renderer.withKeyboard(this.keyboard);
+        try {
+            this.character = new EtyCharacter(
+                new SprtLWJGL("img/man1.gif")
+            );
+            final EtyCharacter second = new EtyCharacter(
+                new V2Integer(-GmeTactics.WIDTH / 4, GmeTactics.HEIGHT / 4),
+                new SprtLWJGL("img/man2.gif")
+            );
+            this.with(this.character, second);
+            this.renderer.register(
+                new EtyRndrSprite(GmeTactics.WIDTH, GmeTactics.HEIGHT),
+                this.character, second
+            );
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override

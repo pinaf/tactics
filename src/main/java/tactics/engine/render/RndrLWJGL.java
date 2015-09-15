@@ -1,6 +1,5 @@
 package tactics.engine.render;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,8 +13,6 @@ import org.lwjgl.glfw.GLFWvidmode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import tactics.engine.entity.Entity;
-import tactics.engine.sprite.Sprite;
-import tactics.engine.sprite.SprtLWJGL;
 
 /**
  * A LWJGL backed implementation of {@link Renderer}.
@@ -55,11 +52,6 @@ public final class RndrLWJGL implements Renderer {
      * The window handle
      */
     private transient long window;
-
-    /**
-     * A sprite.
-     */
-    private transient Sprite sprite;
 
     /**
      * Ctor.
@@ -123,11 +115,6 @@ public final class RndrLWJGL implements Renderer {
             1.0, -1.0
         );
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
-        try {
-            this.sprite = new SprtLWJGL("texture/chess_white.png");
-        } catch (final IOException ex) {
-            throw new IllegalStateException(ex);
-        }
     }
 
     @Override
@@ -147,8 +134,6 @@ public final class RndrLWJGL implements Renderer {
     public void render() {
         if (GLFW.glfwWindowShouldClose(this.window) == GL11.GL_FALSE) {
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-            this.sprite.load();
-            this.sprite.draw(400.0F, 400.0F);
             for (final Map.Entry<Entity, EntityRenderer> entry
                 : this.entities.entrySet()) {
                 entry.getValue().render(entry.getKey());

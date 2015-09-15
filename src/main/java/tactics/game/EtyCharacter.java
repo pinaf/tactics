@@ -1,10 +1,11 @@
 package tactics.game;
 
 import javax.validation.constraints.NotNull;
-import tactics.engine.entity.Ety2D;
+import tactics.engine.entity.EtySprite;
 import tactics.engine.space.Direction2D;
 import tactics.engine.space.V2Integer;
 import tactics.engine.space.Vector2D;
+import tactics.engine.sprite.Sprite;
 
 /**
  * A character {@link tactics.engine.entity.Entity}.
@@ -12,7 +13,7 @@ import tactics.engine.space.Vector2D;
  * @version $Id$
  * @since 0.1
  */
-public final class EtyCharacter implements Ety2D<Integer> {
+public final class EtyCharacter implements EtySprite<Integer> {
 
     /**
      * Current position.
@@ -20,18 +21,27 @@ public final class EtyCharacter implements Ety2D<Integer> {
     private final transient Vector2D<Integer> position;
 
     /**
-     * Ctor.
+     * Sprite.
      */
-    public EtyCharacter() {
-        this(new V2Integer());
+    private final transient Sprite sprite;
+
+    /**
+     * Ctor.
+     * @param sprt Sprite.
+     */
+    public EtyCharacter(@NotNull final Sprite sprt) {
+        this(new V2Integer(), sprt);
     }
 
     /**
      * Ctor.
      * @param pos Starting position.
+     * @param sprt Sprite.
      */
-    public EtyCharacter(@NotNull final Vector2D<Integer> pos) {
+    public EtyCharacter(@NotNull final Vector2D<Integer> pos,
+        @NotNull final Sprite sprt) {
         this.position = pos;
+        this.sprite = sprt;
     }
 
     /**
@@ -45,6 +55,11 @@ public final class EtyCharacter implements Ety2D<Integer> {
     @Override
     public Vector2D<Integer> pos() {
         return this.position;
+    }
+
+    @Override
+    public Sprite sprite() {
+        return this.sprite;
     }
 
     @Override
