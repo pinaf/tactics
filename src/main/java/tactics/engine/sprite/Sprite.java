@@ -1,33 +1,33 @@
-package tactics.engine.texture;
+package tactics.engine.sprite;
 
 /**
- * A texture.
+ * A Sprite.
  * @author Felipe Pina (felipe.pina@protonmail.com)
  * @version $Id$
  * @since 0.1
  */
-public interface Texture {
+public interface Sprite {
 
     /**
-     * Returns this texture's width.
+     * Returns this sprite's width.
      * @return Width.
      */
     int width();
 
     /**
-     * Returns this texture's height.
+     * Returns this sprite's height.
      * @return Height.
      */
     int height();
 
     /**
-     * Loads this texture for rendering. Should be called every time it will
-     * be rendered.
+     * Loads this sprite for rendering. Should be called every time it is
+     * rendered.
      */
     void load();
 
     /**
-     * Draws this texture on the given coordinates.
+     * Draws this sprite on the given coordinates.
      * @param xcoord X coordinate.
      * @param ycoord Y coordinate.
      */

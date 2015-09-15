@@ -1,4 +1,4 @@
-package tactics.engine.texture;
+package tactics.engine.sprite;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -21,12 +21,12 @@ import javax.validation.constraints.NotNull;
 import org.lwjgl.opengl.GL11;
 
 /**
- * A LWJGL backed implementation of {@link Texture}.
+ * A LWJGL backed implementation of {@link Sprite}.
  * @author Felipe Pina (felipe.pina@protonmail.com)
  * @version $Id$
  * @since 0.1
  */
-public final class TxtrLWJGL implements Texture {
+public final class SprtLWJGL implements Sprite {
 
     /**
      * OpenGL target.
@@ -52,10 +52,10 @@ public final class TxtrLWJGL implements Texture {
      * Ctor.
      * @param img Location of image.
      */
-    public TxtrLWJGL(@NotNull final String img) throws IOException {
+    public SprtLWJGL(@NotNull final String img) throws IOException {
         this(
             new BufferedInputStream(
-                TxtrLWJGL.class.getClassLoader().getResourceAsStream(img)
+                SprtLWJGL.class.getClassLoader().getResourceAsStream(img)
             )
         );
     }
@@ -64,11 +64,11 @@ public final class TxtrLWJGL implements Texture {
      * Ctor.
      * @param contents Input stream with image contents.
      */
-    public TxtrLWJGL(@NotNull final InputStream contents) throws IOException {
-        GL11.glEnable(TxtrLWJGL.TARGET);
+    public SprtLWJGL(@NotNull final InputStream contents) throws IOException {
+        GL11.glEnable(SprtLWJGL.TARGET);
         final BufferedImage image = ImageIO.read(contents);
         if (image == null) {
-            throw new IllegalArgumentException("Invalid image for texture.");
+            throw new IllegalArgumentException("Invalid image for sprite.");
         }
         this.create(image);
     }
@@ -90,7 +90,7 @@ public final class TxtrLWJGL implements Texture {
 
     @Override
     public void draw(final float xcoord, final float ycoord) {
-        GL11.glEnable(TxtrLWJGL.TARGET);
+        GL11.glEnable(SprtLWJGL.TARGET);
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
         GL11.glBegin(GL11.GL_QUADS);
         GL11.glTexCoord2f(0.0F, 0.0F);
@@ -105,14 +105,14 @@ public final class TxtrLWJGL implements Texture {
     }
 
     /**
-     * Binds this texture to OpenGL.
+     * Binds this sprite to OpenGL.
      */
     private void bind() {
-        GL11.glBindTexture(TxtrLWJGL.TARGET, this.idt);
+        GL11.glBindTexture(SprtLWJGL.TARGET, this.idt);
     }
 
     /**
-     * Creates the OpenGL texture.
+     * Creates the OpenGL sprite.
      * @param image Input image.
      */
     private void create(final BufferedImage image) {
@@ -127,13 +127,13 @@ public final class TxtrLWJGL implements Texture {
         final ByteBuffer bytes = this.convertImage(image);
         GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
         GL11.glTexParameteri(
-            TxtrLWJGL.TARGET, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR
+            SprtLWJGL.TARGET, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR
         );
         GL11.glTexParameteri(
-            TxtrLWJGL.TARGET, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR
+            SprtLWJGL.TARGET, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR
         );
         GL11.glTexImage2D(
-            TxtrLWJGL.TARGET,
+            SprtLWJGL.TARGET,
             0,
             GL11.GL_RGBA,
             this.width,
@@ -143,15 +143,17 @@ public final class TxtrLWJGL implements Texture {
             GL11.GL_UNSIGNED_BYTE,
             bytes
         );
-        GL11.glDisable(TxtrLWJGL.TARGET);
+        GL11.glDisable(SprtLWJGL.TARGET);
     }
 
     /**
-     * Converts the buffered image to an OpenGL texture.
+     * Converts the buffered image to an OpenGL sprite.
      * @param image The image to convert.
-     * @return A byte buffer containing the OpenGL texture data.
+     * @return A byte buffer containing the OpenGL sprite data.
      */
-    @SuppressWarnings({"UseOfObsoleteCollectionType", "CollectionWithoutInitialCapacity"})
+    @SuppressWarnings({
+        "UseOfObsoleteCollectionType", "CollectionWithoutInitialCapacity"
+    })
     private ByteBuffer convertImage(final BufferedImage image) {
         this.width = 2;
         this.height = 2;
@@ -177,7 +179,6 @@ public final class TxtrLWJGL implements Texture {
             Transparency.OPAQUE,
             DataBuffer.TYPE_BYTE
         );
-        // create a raster that can be used by OpenGL as a source for a texture
         final WritableRaster raster;
         final BufferedImage converted;
         if (image.getColorModel().hasAlpha()) {
@@ -195,13 +196,10 @@ public final class TxtrLWJGL implements Texture {
                 opaque, raster, false, new Hashtable()
             );
         }
-
-        // copy the source image into the produced image
         final Graphics graphics = converted.getGraphics();
         graphics.setColor(new Color(0.0f, 0.0f, 0.0f, 0.0f));
         graphics.fillRect(0, 0, this.width, this.height);
         graphics.drawImage(image, 0, 0, null);
-
         final byte[] data =
             ((DataBufferByte) converted.getRaster().getDataBuffer()).getData();
         final ByteBuffer buffer = ByteBuffer.allocateDirect(data.length);
