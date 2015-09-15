@@ -1,5 +1,6 @@
 package tactics.engine.render;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +14,8 @@ import org.lwjgl.glfw.GLFWvidmode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import tactics.engine.entity.Entity;
+import tactics.engine.texture.Texture;
+import tactics.engine.texture.TxtrLWJGL;
 
 /**
  * A LWJGL backed implementation of {@link Renderer}.
@@ -40,6 +43,7 @@ public final class RndrLWJGL implements Renderer {
     /**
      * Entity to renderer map.
      */
+    @SuppressWarnings("rawtypes")
     private final transient Map<Entity, EntityRenderer> entities;
 
     /**
@@ -51,6 +55,11 @@ public final class RndrLWJGL implements Renderer {
      * The window handle
      */
     private transient long window;
+
+    /**
+     * A texture.
+     */
+    private transient Texture texture;
 
     /**
      * Ctor.
@@ -104,6 +113,8 @@ public final class RndrLWJGL implements Renderer {
         GLFW.glfwShowWindow(this.window);
         GLContext.createFromCurrent();
         GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadIdentity();
         GL11.glOrtho(
@@ -112,6 +123,11 @@ public final class RndrLWJGL implements Renderer {
             1.0, -1.0
         );
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
+        try {
+            this.texture = new TxtrLWJGL("texture/chess_white.png");
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
@@ -126,10 +142,13 @@ public final class RndrLWJGL implements Renderer {
         }
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public void render() {
         if (GLFW.glfwWindowShouldClose(this.window) == GL11.GL_FALSE) {
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+            this.texture.load();
+            this.texture.draw(400.0F, 400.0F);
             for (final Map.Entry<Entity, EntityRenderer> entry
                 : this.entities.entrySet()) {
                 entry.getValue().render(entry.getKey());
