@@ -40,6 +40,9 @@ public final class EtyRndrSprite implements EntityRenderer<EtySprite<Integer>> {
         final float xcoord = (float) this.width / 2.0f + entity.pos().coordX();
         final float ycoord = (float) this.height / 2.0f + entity.pos().coordY();
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glColorMask(true, true, true, true);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glBegin(GL11.GL_QUADS);
         GL11.glTexCoord2f(0.0F, 1.0F);
         GL11.glVertex2f(xcoord, ycoord);
@@ -53,6 +56,7 @@ public final class EtyRndrSprite implements EntityRenderer<EtySprite<Integer>> {
         GL11.glTexCoord2f(1.0F, 1.0F);
         GL11.glVertex2f(xcoord + (float) sprite.width(), ycoord);
         GL11.glEnd();
+        GL11.glDisable(GL11.GL_BLEND);
     }
 
 }
