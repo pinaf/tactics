@@ -1,9 +1,9 @@
-package tactics.engine.render;
+package tactics.engine.sprite;
 
 import javax.validation.constraints.NotNull;
 import org.lwjgl.opengl.GL11;
 import tactics.engine.entity.EtySprite;
-import tactics.engine.sprite.Sprite;
+import tactics.engine.render.EntityRenderer;
 
 /**
  * An entity render for {@link EtySprite}.
