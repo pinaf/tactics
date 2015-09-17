@@ -12,6 +12,7 @@ import tactics.engine.render.RndrLWJGL;
 import tactics.engine.space.Direction2D;
 import tactics.engine.space.V2Integer;
 import tactics.engine.sprite.SprtLWJGL;
+import tactics.engine.tile.EtyTile;
 
 /**
  * Tactics {@link tactics.engine.game.Game}.
@@ -76,7 +77,7 @@ public final class GmeTactics extends GmeLoop {
             for (int row = 0; row < 25; row++) {
                 for (int col = 0; col < 38; col++) {
                     background.with(
-                        new EtyCharacter(
+                        new EtyTile(
                             new V2Integer(left + 32 * col, bottom + 32 * row),
                             new SprtLWJGL("img/chess_white.png")
                         )
