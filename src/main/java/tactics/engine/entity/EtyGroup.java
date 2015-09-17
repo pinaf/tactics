@@ -26,6 +26,11 @@ public final class EtyGroup<T extends Entity> implements Entity, Iterable<T> {
         this.entities = new ArrayList<>(Arrays.asList(etts));
     }
 
+    /**
+     * Adds entities to this group.
+     * @param etts Entities.
+     * @return Itself.
+     */
     public EtyGroup<T> with(@NotNull final T... etts) {
         this.entities.addAll(Arrays.asList(etts));
         return this;

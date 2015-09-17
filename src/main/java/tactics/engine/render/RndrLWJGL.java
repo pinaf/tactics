@@ -3,6 +3,7 @@ package tactics.engine.render;
 import java.nio.ByteBuffer;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import javax.validation.constraints.NotNull;
 import org.lwjgl.Sys;
 import org.lwjgl.glfw.Callbacks;
@@ -46,12 +47,22 @@ public final class RndrLWJGL implements Renderer {
     /**
      * Error callback.
      */
-    private transient GLFWErrorCallback errors;
+    private final transient GLFWErrorCallback errors;
 
     /**
      * The window handle
      */
     private transient long window;
+
+    /**
+     * Timestamp of the last rate calculation.
+     */
+    private transient long last;
+
+    /**
+     * Number of renders since last calculation.
+     */
+    private transient int renders;
 
     /**
      * Ctor.
@@ -64,6 +75,7 @@ public final class RndrLWJGL implements Renderer {
         this.width = wdth;
         this.height = hegt;
         this.entities = new LinkedHashMap<>(100 * 1000);
+        this.errors = Callbacks.errorCallbackPrint(System.err);
     }
 
     @Override
@@ -79,7 +91,6 @@ public final class RndrLWJGL implements Renderer {
     @Override
     public void init() {
         System.out.printf("Hello LWJGL %s!%n", Sys.getVersion());
-        this.errors = Callbacks.errorCallbackPrint(System.err);
         GLFW.glfwSetErrorCallback(this.errors);
         if (GLFW.glfwInit() != GL11.GL_TRUE) {
             throw new IllegalStateException("Unable to initialize GLFW");
@@ -139,7 +150,21 @@ public final class RndrLWJGL implements Renderer {
                 entry.getValue().render(entry.getKey());
             }
             GLFW.glfwSwapBuffers(this.window);
+            this.renders++;
             GLFW.glfwPollEvents();
+        }
+        final long now = System.nanoTime();
+        final long delta = TimeUnit.NANOSECONDS.toSeconds(now - this.last);
+        if (delta >= 1L) {
+            this.last = now;
+            GLFW.glfwSetWindowTitle(
+                this.window,
+                String.format(
+                    "%s - %.2f FPS",
+                    this.title,
+                    (double) this.renders / (double) delta)
+            );
+            this.renders = 0;
         }
     }
 
