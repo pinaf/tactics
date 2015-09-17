@@ -1,7 +1,7 @@
 package tactics.engine.render;
 
 import java.nio.ByteBuffer;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.validation.constraints.NotNull;
 import org.lwjgl.Sys;
@@ -63,7 +63,7 @@ public final class RndrLWJGL implements Renderer {
         this.title = ttle;
         this.width = wdth;
         this.height = hegt;
-        this.entities = new HashMap<>(100 * 1000);
+        this.entities = new LinkedHashMap<>(100 * 1000);
     }
 
     @Override

@@ -2,8 +2,11 @@ package tactics.game;
 
 import java.io.IOException;
 import org.lwjgl.glfw.GLFW;
+import tactics.engine.entity.EtyGroup;
+import tactics.engine.entity.EtySprite;
 import tactics.engine.game.GmeLoop;
 import tactics.engine.input.KeybLWJGL;
+import tactics.engine.render.EtyRndrGroup;
 import tactics.engine.render.EtyRndrSprite;
 import tactics.engine.render.RndrLWJGL;
 import tactics.engine.space.Direction2D;
@@ -61,14 +64,31 @@ public final class GmeTactics extends GmeLoop {
         this.keyboard.init();
         this.renderer.withKeyboard(this.keyboard);
         try {
-            this.character = new EtyCharacter(
-                new SprtLWJGL("img/man1.gif")
-            );
+            this.character = new EtyCharacter(new SprtLWJGL("img/man1.gif"));
             final EtyCharacter second = new EtyCharacter(
                 new V2Integer(-GmeTactics.WIDTH / 4, GmeTactics.HEIGHT / 4),
                 new SprtLWJGL("img/man2.gif")
             );
             this.with(this.character, second);
+            final EtyGroup<EtySprite<Integer>> background = new EtyGroup<>();
+            final int left = -GmeTactics.WIDTH / 2;
+            final int bottom = -GmeTactics.HEIGHT / 2;
+            for (int row = 0; row < 25; row++) {
+                for (int col = 0; col < 38; col++) {
+                    background.with(
+                        new EtyCharacter(
+                            new V2Integer(left + 32 * col, bottom + 32 * row),
+                            new SprtLWJGL("img/chess_white.png")
+                        )
+                    );
+                }
+            }
+            this.renderer.register(
+                new EtyRndrGroup<>(
+                    new EtyRndrSprite(GmeTactics.WIDTH, GmeTactics.HEIGHT)
+                ),
+                background
+            );
             this.renderer.register(
                 new EtyRndrSprite(GmeTactics.WIDTH, GmeTactics.HEIGHT),
                 this.character, second
