@@ -3,9 +3,10 @@ package tactics.engine.render;
 import javax.validation.constraints.NotNull;
 import tactics.engine.entity.Entity;
 import tactics.engine.entity.EtyGroup;
+import tactics.engine.entity.EtyGrpSimple;
 
 /**
- * Entity renderer for an {@link EtyGroup}.
+ * Entity renderer for an {@link EtyGrpSimple}.
  * @author Felipe Pina (felipe.pina@protonmail.com)
  * @version $Id$
  * @since 0.1

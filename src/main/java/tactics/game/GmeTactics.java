@@ -2,17 +2,17 @@ package tactics.game;
 
 import java.io.IOException;
 import org.lwjgl.glfw.GLFW;
-import tactics.engine.entity.EtyGroup;
 import tactics.engine.game.GmeLoop;
 import tactics.engine.input.KeybLWJGL;
 import tactics.engine.render.EtyRndrGroup;
-import tactics.engine.sprite.EtyRndrSprite;
 import tactics.engine.render.RndrLWJGL;
 import tactics.engine.space.Direction2D;
 import tactics.engine.space.V2Integer;
+import tactics.engine.sprite.EtyRndrSprite;
 import tactics.engine.sprite.SprtLWJGL;
 import tactics.engine.tile.EtyRndrTile;
 import tactics.engine.tile.EtyTile;
+import tactics.engine.tile.EtyTilemap;
 
 /**
  * Tactics {@link tactics.engine.game.Game}.
@@ -71,7 +71,7 @@ public final class GmeTactics extends GmeLoop {
                 new SprtLWJGL("img/man2.gif")
             );
             this.with(this.character, second);
-            final EtyGroup<EtyTile> background = new EtyGroup<>();
+            final EtyTilemap background = new EtyTilemap();
             final int left = -GmeTactics.WIDTH / 2;
             final int bottom = -GmeTactics.HEIGHT / 2;
             for (int row = 0; row < 25; row++) {
@@ -108,7 +108,9 @@ public final class GmeTactics extends GmeLoop {
 
     @Override
     public boolean runCycle() {
-        if (!super.runCycle() || this.keyboard.isKeyDown(GLFW.GLFW_KEY_ESCAPE)) {
+        if (!super.runCycle()
+            || this.keyboard.isKeyDown(GLFW.GLFW_KEY_ESCAPE)
+            || this.keyboard.isKeyDown(GLFW.GLFW_KEY_Q)) {
             return false;
         }
         if (this.keyboard.isKeyDown(GLFW.GLFW_KEY_UP)) {
