@@ -9,9 +9,11 @@ import tactics.engine.render.RndrLWJGL;
 import tactics.engine.space.Direction2D;
 import tactics.engine.space.V2Integer;
 import tactics.engine.sprite.EtyRndrSprite;
+import tactics.engine.sprite.SprCacheSimple;
+import tactics.engine.sprite.Sprite;
+import tactics.engine.sprite.SpriteCache;
 import tactics.engine.sprite.SprtLWJGL;
 import tactics.engine.tile.EtyRndrTile;
-import tactics.engine.tile.EtyTile;
 import tactics.engine.tile.EtyTilemap;
 
 /**
@@ -71,19 +73,27 @@ public final class GmeTactics extends GmeLoop {
                 new SprtLWJGL("img/man2.gif")
             );
             this.with(this.character, second);
-            final EtyTilemap background = new EtyTilemap();
-            final int left = -GmeTactics.WIDTH / 2;
-            final int bottom = -GmeTactics.HEIGHT / 2;
-            for (int row = 0; row < 25; row++) {
-                for (int col = 0; col < 38; col++) {
-                    background.with(
-                        new EtyTile(
-                            new V2Integer(left + 32 * col, bottom + 32 * row),
-                            new SprtLWJGL("img/chess_white.png")
-                        )
-                    );
+            final SpriteCache cache = new SprCacheSimple();
+            final Sprite sprite = new SprtLWJGL("img/stone.png");
+            final int stone = cache.add(sprite);
+            final int water = cache.add(new SprtLWJGL("img/water.png"));
+            final int rows = 25;
+            final int cols = 38;
+            final int[][] tiles = new int[rows][cols];
+            for (int row = 0; row < rows; row++) {
+                for (int col = 0; col < cols; col++) {
+                    if (row == 20 && col < 20) {
+                        tiles[row][col] = water;
+                    } else {
+                        tiles[row][col] = stone;
+                    }
                 }
             }
+            final int left = -GmeTactics.WIDTH / 2;
+            final int bottom = -GmeTactics.HEIGHT / 2;
+            final EtyTilemap background = new EtyTilemap(
+                cache, tiles, left, bottom, sprite.width(), sprite.height()
+            );
             this.renderer.register(
                 new EtyRndrGroup<>(
                     new EtyRndrTile(GmeTactics.WIDTH, GmeTactics.HEIGHT)

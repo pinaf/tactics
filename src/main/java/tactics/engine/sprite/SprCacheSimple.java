@@ -26,13 +26,12 @@ public final class SprCacheSimple implements SpriteCache {
 
     @Override
     public Sprite sprite(final int index) {
-        final Sprite sprite = this.sprites.get(index);
-        if (sprite == null) {
+        if (index < 0 || index >= this.sprites.size()) {
             throw new IllegalArgumentException(
                 String.format("Invalid index: %d", index)
             );
         }
-        return sprite;
+        return this.sprites.get(index);
     }
 
 }
