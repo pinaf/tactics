@@ -73,32 +73,11 @@ public final class GmeTactics extends GmeLoop {
                 new SprtLWJGL("img/man2.gif")
             );
             this.with(this.character, second);
-            final SpriteCache cache = new SprCacheSimple();
-            final Sprite sprite = new SprtLWJGL("img/stone.png");
-            final int stone = cache.add(sprite);
-            final int water = cache.add(new SprtLWJGL("img/water.png"));
-            final int rows = 25;
-            final int cols = 38;
-            final int[][] tiles = new int[rows][cols];
-            for (int row = 0; row < rows; row++) {
-                for (int col = 0; col < cols; col++) {
-                    if (row == 20 && col < 20) {
-                        tiles[row][col] = water;
-                    } else {
-                        tiles[row][col] = stone;
-                    }
-                }
-            }
-            final int left = -GmeTactics.WIDTH / 2;
-            final int bottom = -GmeTactics.HEIGHT / 2;
-            final EtyTilemap background = new EtyTilemap(
-                cache, tiles, left, bottom, sprite.width(), sprite.height()
-            );
             this.renderer.register(
                 new EtyRndrGroup<>(
                     new EtyRndrTile(GmeTactics.WIDTH, GmeTactics.HEIGHT)
                 ),
-                background
+                this.buildMap()
             );
             this.renderer.register(
                 new EtyRndrSprite(GmeTactics.WIDTH, GmeTactics.HEIGHT),
@@ -137,6 +116,41 @@ public final class GmeTactics extends GmeLoop {
         }
         this.renderer.render();
         return true;
+    }
+
+    /**
+     * Builds the map.
+     * @return Map.
+     * @throws IOException If unsuccessful.
+     */
+    private EtyTilemap buildMap() throws IOException {
+        final SpriteCache cache = new SprCacheSimple();
+        final Sprite sprite = new SprtLWJGL("img/stone.png");
+        final int stone = cache.add(sprite);
+        final int water = cache.add(new SprtLWJGL("img/water.png"));
+        final int grass = cache.add(new SprtLWJGL("img/grass.png"));
+        final int rows = 25;
+        final int cols = 38;
+        final int[][] tiles = new int[rows][cols];
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                tiles[row][col] = grass;
+            }
+        }
+        for (int col = 0; col < cols; col++) {
+            tiles[20][col] = water;
+        }
+        for (int col = 0; col < cols; col++) {
+            tiles[19][col] = stone;
+        }
+        for (int row = 0; row < rows; row++) {
+            tiles[row][20] = stone;
+        }
+        final int left = -GmeTactics.WIDTH / 2;
+        final int bottom = -GmeTactics.HEIGHT / 2;
+        return new EtyTilemap(
+            cache, tiles, left, bottom, sprite.width(), sprite.height()
+        );
     }
 
 }
